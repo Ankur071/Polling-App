@@ -2,27 +2,28 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Poll } from './poll.models';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PollService {
-  
-  private baseUrl = "http://localhost:8080/api/polls";
 
-  constructor(private http:HttpClient){}
+  private baseUrl = environment.apiUrl;
 
-  createPoll(poll:Poll):Observable<Poll>{
+  constructor(private http: HttpClient) { }
+
+  createPoll(poll: Poll): Observable<Poll> {
     return this.http.post<Poll>(this.baseUrl, poll);
   }
 
-  getPolls():Observable<Poll[]>{
+  getPolls(): Observable<Poll[]> {
     return this.http.get<Poll[]>(this.baseUrl);
   }
 
-  vote(pollId:number,optionIndex:number):Observable<void>{
+  vote(pollId: number, optionIndex: number): Observable<void> {
     const url = `${this.baseUrl}/vote`;
-    return this.http.post<void>(url,{pollId,optionIndex});
+    return this.http.post<void>(url, { pollId, optionIndex });
   }
 
 }
